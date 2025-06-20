@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <style>
+            html, body {
+                height: 100%;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            .flex-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                width: 100%;
+            }
+
+            .flex-container-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+            
+            .button-modal {
+                width: 100%;
+                height: 4%;
+                font-size: 12pt;
+                background-color: rgb(98, 85, 216);
+                border: 2px solid rgba(52, 109, 173, 0.329);
+                color: white;
+                cursor: pointer;
+            }
+
+            .modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 100vw;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                background-color: white;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div class="flex-container">
+            <div class="flex-container-button">
+                <button id="button-modal" class="button-modal">Click me!</button>
+            </div>
+            
+            <div class="modal" hidden>
+                <h2>Modal</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel placeat officia modi! Doloremque, distinctio libero corrupti temporibus incidunt facere in obcaecati, eaque aliquid quisquam amet est ut facilis, enim soluta.</p>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est atque ipsa beatae vitae praesentium. Mollitia autem possimus pariatur veniam nemo provident architecto officia hic eveniet ea, exercitationem quos eos consectetur.</p>
+
+                <button id="button-close">Close</button>
+            </div>
+        </div>
+    </body>
+        <script>
+        $("#button-modal").click(function() {
+            $(".modal").show();
+        });
+
+        $("#button-close").click(function() {
+            $(".modal").hide();
+        });
+    </script>
+</html>

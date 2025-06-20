@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: brown;
+        }
+
+        .button-menu {
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            background-color: brown;
+            width: 10%;
+            text-align: center;
+            height: 100%;
+            display: none;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-menu li {
+            margin-bottom: 4%;
+        }
+
+        .nav-menu li:hover {
+            color: rgba(255, 255, 255, 0.226);
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <svg class="button-menu" id="button-menu" xmlns="http://www.w3.org/2000/svg" width="2%" height="2%" fill="white" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+        </svg>
+    </header>
+
+    <nav class="nav-menu" id="nav-menu">
+        <ul>
+            <a href=""><li>Home</li></a>    
+            <a href=""><li>About</li></a>    
+            <a href=""><li>Contact</li></a>    
+        </ul>
+        
+        <ul>
+            <a href=""><li>jQuery</li></a>
+            <a href=""><li>Laravel</li></a>
+        </ul>
+    </nav>
+</body>
+
+<script>
+    $("#button-menu").click(function () {
+        // $("#nav-menu").show(); // Show the element
+        // $("#nav-menu").hide(); // Hide the element
+        // $("#nav-menu").toggle(); // Toggle between show and hide when clicked 
+        // $("#nav-menu").fadeIn(); // Fade In animation
+        // $("#nav-menu").fadeIn(); // Fade Out animation
+        $("#nav-menu").fadeToggle(); // Toggle with fade animation
+    });
+</script>
+</html>
