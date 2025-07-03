@@ -1,0 +1,39 @@
+Array
+(
+    [name] => Array
+        (
+            [0] => Capture.PNG
+            [1] => Capture1.PNG
+        )
+
+    [full_path] => Array
+        (
+            [0] => Capture.PNG
+            [1] => Capture1.PNG
+        )
+
+    [type] => Array
+        (
+            [0] => image/png
+            [1] => image/png
+        )
+
+    [tmp_name] => Array
+        (
+            [0] => C:\Users\Isaac\AppData\Local\Temp\phpE41F.tmp
+            [1] => C:\Users\Isaac\AppData\Local\Temp\phpE420.tmp
+        )
+
+    [error] => Array
+        (
+            [0] => 0
+            [1] => 0
+        )
+
+    [size] => Array
+        (
+            [0] => 13785
+            [1] => 68066
+        )
+
+)

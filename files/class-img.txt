@@ -1,0 +1,141 @@
+<?php
+
+class ValidarImagem
+{
+    private $maxFileSize;
+    private $newWidth;
+    private $qualidade;
+
+    public function __construct($maxFileSize = 20 * 1024 * 1024, $newWidth = 500, $qualidade = 80)
+    {
+        // 2 * 1024 * 1024 = 2 MB
+
+        $this->maxFileSize = $maxFileSize; //Tamanho máximo do arquivo
+        $this->newWidth = $newWidth; // Largura máxima da imagem
+        $this->qualidade = $qualidade; // 80 corta em quase metade o tamanho, e a perda de qualidade é quase imperceptível
+    }
+
+    public function converterParaWebp($image, $uploaddir): string
+    {
+        $image_name = $image["name"] ?? $image[0];
+        $image_tmp_name = $image["tmp_name"] ?? $image[3];
+        $image_error = $image["error"] ?? $image[4];
+        $image_size = $image["size"] ?? $image[5];
+
+        $rand = bin2hex(random_bytes(5));
+        $uploadfile = $uploaddir . basename($image_name);
+        $nome_logo_nova = $rand . '.webp';
+
+        if ($image_error == 1 || $image_size > $this->maxFileSize) {
+            throw new Exception("Arquivo muito grande. Tamanho máximo é 20 MB.", 1);
+        }
+
+        $extension = pathinfo($image_name, PATHINFO_EXTENSION);
+
+        // Extensoes permitidas
+        $allowedExtensions = ['jpg', 'jpeg', 'jfif', 'png', 'webp', 'avif'];
+
+        // Checa se o arquivo esta entre as extensoes permitidas
+        if (!in_array(strtolower($extension), $allowedExtensions)) {
+            throw new InvalidArgumentException('Formato de Imagem Inválido.', 1);
+        }
+
+        if (!move_uploaded_file($image_tmp_name, $uploadfile)) {
+            throw new Exception("Falha ao mover uploaded file.");
+        }
+
+        switch (strtolower($extension)) {
+            case 'jpg':
+            case 'jpeg':
+            case 'jfif':
+                $originalImage = imagecreatefromjpeg($uploadfile);
+                break;
+            case 'png':
+                $originalImage = imagecreatefrompng($uploadfile);
+                if (!imageistruecolor($originalImage)) {
+                    $trueColorImage = imagecreatetruecolor(imagesx($originalImage), imagesy($originalImage));
+                    imagecopy($trueColorImage, $originalImage, 0, 0, 0, 0, imagesx($originalImage), imagesy($originalImage));
+                    imagedestroy($originalImage); // Free the original image from memory
+                    $originalImage = $trueColorImage;
+                }
+                break;
+            case 'webp':
+                $originalImage = imagecreatefromwebp($uploadfile);
+                break;
+            case 'avif':
+                $originalImage = imagecreatefromavif($uploadfile);
+                break;
+            default:
+                throw new InvalidArgumentException('Conversão do formato de imagem atual não existente.', 1);
+        }
+
+        // Obtém a largura e altura original da imagem
+        $originalWidth = imagesx($originalImage);
+        $originalHeight = imagesy($originalImage);
+
+        // Calcula a nova altura proporcional à nova largura
+        $newHeight = round(($originalHeight / $originalWidth) * $this->newWidth);
+
+        // Verifica se é necessário redimensionar a imagem
+        if ($originalWidth > $this->newWidth || $originalHeight > $newHeight) {
+            // Cria uma nova imagem com as dimensões desejadas
+            $resizedImage = imagecreatetruecolor($this->newWidth, $newHeight);
+            imagealphablending($resizedImage, false); //Mantém fundo transpararente das imagens redimensionadas
+            imagesavealpha($resizedImage, true); //Mantém fundo transpararente das imagens redimensionadas
+
+            // Redimensiona a imagem original para a nova imagem
+            imagecopyresampled($resizedImage, $originalImage, 0, 0, 0, 0, $this->newWidth, $newHeight, $originalWidth, $originalHeight);
+
+            // Define o nome e local da imagem webp
+            $webpfile = $uploaddir . $rand . ".webp";
+
+            // Salva a imagem redimensionada no formato webp
+            imagewebp($resizedImage, $webpfile, $this->qualidade);
+        } else { //Caso a imagem original já for menor que o tamanho mínimo, apenas converte para webp
+
+            // Define o nome e local da imagem webp
+            $webpfile = $uploaddir . $rand . ".webp";
+
+            // Salva a imagem original no formato webp
+            imagewebp($originalImage, $webpfile, $this->qualidade);
+        }
+
+        if (file_exists($uploadfile)) { // Remove o arquivo original
+            unlink($uploadfile);
+        }
+        imagedestroy($originalImage);
+
+        if (isset($resizedImage)) {
+            imagedestroy($resizedImage);
+        }
+
+        return $nome_logo_nova;
+    }
+
+    public function converterParaJPG($image, $uploaddir)
+    {
+        $rand = bin2hex(random_bytes(5));
+        $uploadfile = $uploaddir . basename($image);
+        $nome_logo_nova = $rand . '.jpg';
+
+        $originalImage = imagecreatefromwebp($uploadfile);
+
+        // Obtém a largura e altura original da imagem
+        $originalWidth = imagesx($originalImage);
+        $originalHeight = imagesy($originalImage);
+
+        $img_background = imagecreatetruecolor($originalWidth, $originalHeight);
+        $branco = imagecolorallocate($img_background, 255, 255, 255);
+        imagefill($img_background, 0, 0, $branco);
+
+        imagecopyresampled($img_background, $originalImage, 0, 0, 0, 0, $originalWidth, $originalHeight, $originalWidth, $originalHeight);
+
+        $jpgfile = $uploaddir . $rand . ".jpg";
+
+        imagejpeg($img_background, $jpgfile, $this->qualidade);
+
+        imagedestroy($img_background);
+
+        return $nome_logo_nova;
+    }
+}

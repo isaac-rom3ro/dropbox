@@ -1,0 +1,45 @@
+Array
+(
+    [0] => Array
+        (
+            [0] => Capture.PNG
+            [1] => Capture1.PNG
+            [2] => Capture3.PNG
+        )
+
+    [1] => Array
+        (
+            [0] => Capture.PNG
+            [1] => Capture1.PNG
+            [2] => Capture3.PNG
+        )
+
+    [2] => Array
+        (
+            [0] => image/png
+            [1] => image/png
+            [2] => image/png
+        )
+
+    [3] => Array
+        (
+            [0] => C:\Users\Isaac\AppData\Local\Temp\php6946.tmp
+            [1] => C:\Users\Isaac\AppData\Local\Temp\php6947.tmp
+            [2] => C:\Users\Isaac\AppData\Local\Temp\php6948.tmp
+        )
+
+    [4] => Array
+        (
+            [0] => 0
+            [1] => 0
+            [2] => 0
+        )
+
+    [5] => Array
+        (
+            [0] => 13785
+            [1] => 68066
+            [2] => 41338
+        )
+
+)
