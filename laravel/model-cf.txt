@@ -1,0 +1,15 @@
+1. Define the route -> routes/web.php
+Route::resource('end-point', EndPointController::class)->only(['index'])->names([
+        'index' => 'blade'
+]);
+2. Create the Controller using the index method to call the blade
+<?php
+class EndPointController extends Controller
+{
+    public function index()
+    {
+        //
+        return view('path-folder.file');
+    }
+}
+3. Change files inline to external both js and css
