@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <input type="text" id="input-test" data-id="data-id" data-element="input">
+    <!-- <element data-name='value'> -->
+    <button id="btn-click">Click me</button>
+<script>
+    document.getElementById('btn-click').addEventListener('click', function() {
+        // Get the entire element
+        let input = document.querySelector('#input-test');
+        // element.dataset.name
+        console.log(input.dataset.element);
+    });
+</script>
+</body>
+</html>
